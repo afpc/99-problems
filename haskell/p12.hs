@@ -7,4 +7,4 @@ decode x = decodeEither x []
 decodeEither :: Eq x => [Either x (Int, x)] -> [x] -> [x]
 decodeEither [] y               = y
 decodeEither (Left x:xs) y      = decodeEither xs (y ++ [x])
-decodeEither (Right (n,e):xs) y = decodeEither xs (y ++ (take n (repeat e)))
+decodeEither (Right (n,e):xs) y = decodeEither xs (y ++ (replicate n e))
