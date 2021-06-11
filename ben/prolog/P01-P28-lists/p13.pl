@@ -1,4 +1,4 @@
-% Modified run-length encoding.
+% Run-length encoding of a list (direct solution).
 
 count([], _, [], 0). 
 count([X|Xs], X, R, N1) :-
