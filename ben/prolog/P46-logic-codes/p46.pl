@@ -26,7 +26,9 @@ impl(A, B) :-
     (A, B).
 
 equ(A, B) :- 
-    A == B.
+    A, B.
+equ(A, B) :- 
+    \+ A, \+ B.
 
 table(A, B, Exp) :- 
     bind(A), 
