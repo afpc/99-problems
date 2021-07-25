@@ -16,11 +16,16 @@ queens2([(X,Y)|L], N) :-
     member(X, NL),
     member(Y, NL),
     queens2(L, N1),
-    \+ attack((X,Y), ...).
+    check_all((X,Y), L).
 
 attack((X1,Y1), (X2,Y2)) :-
-    X1 == X2,!;
-    Y1 == Y2,!;
+    X1 = X2,!;
+    Y1 = Y2,!;
     D1 is X1 - X2, 
     D2 is Y1 - Y2,
-    D1 == D2.
+    D1 = D2.
+
+check_all(_, []).
+check_all(P1, [P2|L]) :-
+    \+ attack(P1, P2),
+    check_all(P1, L).
