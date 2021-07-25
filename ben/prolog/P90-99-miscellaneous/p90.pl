@@ -20,8 +20,14 @@ queens2([(X,Y)|L], N) :-
 
 queens3(L, N) :-
     numlist(1, N, NL),
-    permutation(NL, L),
+    permutation(NL, TL),
+    expand(TL, L),
     no_attack(L).
+
+expand([], []).
+expand([X|Xs], [(X,Y)|Ys]) :-
+    length(Xs, Y),
+    expand(Xs, Ys).
 
 no_attack([X|Xs]) :-
     check_all(X, Xs),
