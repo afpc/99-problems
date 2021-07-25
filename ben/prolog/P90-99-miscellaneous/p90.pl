@@ -6,7 +6,7 @@ Hint: Represent the positions of the queens as a list of numbers 1..N. Example: 
 */
 
 queens(L) :-
-    queens2(L, 8).
+    queens3(L, 8).
 
 queens2([], 0).
 queens2([(X,Y)|L], N) :-
@@ -17,6 +17,15 @@ queens2([(X,Y)|L], N) :-
     member(Y, NL),
     queens2(L, N1),
     check_all((X,Y), L).
+
+queens3(L, N) :-
+    numlist(1, N, NL),
+    permutation(NL, L),
+    no_attack(L).
+
+no_attack([X|Xs]) :-
+    check_all(X, Xs),
+    no_attack(Xs).
 
 attack((X1,Y1), (X2,Y2)) :-
     X1 = X2,!;
