@@ -6,39 +6,31 @@ Hint: Represent the positions of the queens as a list of numbers 1..N. Example: 
 */
 
 queens(L) :-
-    queens3(L, 8).
+    queens(L, 8).
 
-queens2([], 0).
-queens2([(X,Y)|L], N) :-
-    N > 0,
-    N1 is N - 1,
-    numlist(1, 8, NL), 
-    member(X, NL),
-    member(Y, NL),
-    queens2(L, N1),
-    check_all((X,Y), L).
-
-queens3(L, N) :-
+queens(L, N) :-
     numlist(1, N, NL),
     permutation(NL, TL),
-    expand(TL, L),
+    expand(TL, L, N),
     no_attack(L).
 
-expand([], []).
-expand([X|Xs], [(X,Y)|Ys]) :-
-    length(Xs, Y),
-    expand(Xs, Ys).
+expand([], [], _).
+expand([X|Xs], [(X,Y)|Ys], N) :-
+    length(Xs, L),
+    Y is N - L,
+    expand(Xs, Ys, N).
 
+no_attack([]).
 no_attack([X|Xs]) :-
     check_all(X, Xs),
     no_attack(Xs).
 
 attack((X1,Y1), (X2,Y2)) :-
-    X1 = X2,!;
-    Y1 = Y2,!;
+    X1 == X2,!;
+    Y1 == Y2,!;
     D1 is X1 - X2, 
     D2 is Y1 - Y2,
-    D1 = D2.
+    D1 == D2.
 
 check_all(_, []).
 check_all(P1, [P2|L]) :-
