@@ -28,9 +28,8 @@ no_attack([X|Xs]) :-
 attack((X1,Y1), (X2,Y2)) :-
     X1 == X2,!;
     Y1 == Y2,!;
-    D1 is X1 - X2, 
-    D2 is Y1 - Y2,
-    D1 == D2.
+    X1 - X2 =:= Y1 - Y2,!;
+    Y1 - X2 =:= Y2 - X1.
 
 check_all(_, []).
 check_all(P1, [P2|L]) :-
