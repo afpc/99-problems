@@ -9,17 +9,13 @@ Note that we do not want permutations of the group members; i.e. ((ALDO BEAT) ..
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term "multinomial coefficients".
 -}
 
-import Data.List (delete)
+group :: [Int] -> [a] -> [[[a]]]
+group [] _ = [[]]
+group (n:ns) input = [(x:xs) | (x,rs) <- takeN n input,
+                               xs <- group ns rs]
 
---group :: [Int] -> [a] -> [[[a]]]
-group nbs input = help nbs [([[]], input)]
-
---help :: [Int] -> [([[a]], [a])] -> [([[a]], [a])]
-help [] l = l 
-help (n:ns) input = foldr (\ a b -> takeN n a ++ b) [] input
-
---takeN :: Int -> ([[a]], [a]) -> [([[a]], [a])]
-takeN nb (l, r) = [(x:l, deleteMult x r) | 
-
-deleteMult :: Eq a => [a] -> [a] -> [a]
-deleteMult xs l = foldr (\ x b -> delete x b ) l xs
+takeN :: Int -> [a] -> [([a], [a])]
+takeN 0 l = [([], l)]
+takeN _ [] = []
+takeN n (x:xs) = [(x:ys,zs) | (ys,zs) <- takeN (n - 1) xs]
+                 ++ [(ys,x:zs) | (ys,zs) <- takeN n xs]
